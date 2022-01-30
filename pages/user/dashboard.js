@@ -13,9 +13,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import TemplateDefault from '../../src/templates/Default'
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    padding: theme.spacing(8, 0, 6),
-  },
+
   buttonAdd: {
     margin: '10px auto',
     display: 'block'
@@ -31,7 +29,7 @@ const Home = () => {
 
   return (
     <TemplateDefault>
-      <Container maxWidth="sm" className={classes.container}>
+      <Container maxWidth="sm">
         <Typography component="h1" variant="h2" align="center">
           Meus Anúncios
         </Typography>
