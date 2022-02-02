@@ -51,7 +51,7 @@ const Signup = () => {
         </Typography>
       </Container>
 
-      <Container maxWidth="md" component="main">
+      <Container maxWidth="sm" component="main">
         <Box className={classes.box}>
           <Formik
             initialValues={initialValues}
