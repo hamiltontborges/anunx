@@ -4,6 +4,11 @@ import Providers from "next-auth/providers"
 
 export default NextAuth({
   providers: [
+    Providers.Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    }),
+
     Providers.Credentials({
       name: 'Credentials',
 
@@ -19,8 +24,7 @@ export default NextAuth({
           throw '/auth/signin?i=1'
         }
       }
-
-    })
+    }),
   ],
 
   session: {
@@ -32,5 +36,4 @@ export default NextAuth({
     secert: process.env.JWT_TOKEN
   },
 
-  database: process.env.MONGODB_URI,
 })

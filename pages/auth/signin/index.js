@@ -19,16 +19,22 @@ import { initialValues, validationSchema } from './formValues'
 import useToasty from '../../../src/contexts/Toasty'
 import useStyles from './styles'
 import { Alert } from '@material-ui/lab'
+import Image from 'next/image'
 
 
 const Signin = () => {
   const classes = useStyles()
   const router = useRouter()
   const { setToasty } = useToasty()
-  const [ session ] = useSession()
+  const [session] = useSession()
 
   console.log(session)
-  
+
+  const handleGoogleLogin = () => {
+    signIn('google', {
+    callbackUrl: 'http://localhost:3000/user/dashboard'
+  })}
+
   const handleFormSubmit = values => {
     signIn('credentials', {
       email: values.email,
@@ -43,11 +49,33 @@ const Signin = () => {
         <Typography component="h1" variant="h2" align="center" color="textPrimary">
           Entre na sua conta
         </Typography>
-      
       </Container>
 
       <Container maxWidth="sm" component="main">
         <Box className={classes.box}>
+
+          <Box align="center">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={
+                <Image
+                  src="/images/logo_google.svg"
+                  width={20}
+                  height={20}
+                  alt="login com Google"
+                />
+              }
+              onClick={handleGoogleLogin}
+            >
+              ENTRAR COM GOOGLE
+            </Button>
+          </Box>
+
+          <Box className={classes.orSeparator}>
+            <span>ou</span>
+          </Box>
+
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
