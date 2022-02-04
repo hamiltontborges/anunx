@@ -212,4 +212,6 @@ const Publish = () => {
   )
 }
 
+Publish.requireAuth = true
+
 export default Publish
