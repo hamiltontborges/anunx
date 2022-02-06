@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import slugify from 'slugify'
+import { useRouter } from 'next/router'
 
 import {
   Box,
@@ -19,6 +20,7 @@ import Card from '../src/components/Card'
 import dbConnect from '../src/utils/dbConnect'
 import ProductsModel from '../src/models/products'
 import { formatCurrency } from '../src/utils/currency'
+import { useState } from 'react'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,8 +41,16 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Home = ({ products }) => {
-
   const classes = useStyles()
+  const router = useRouter()
+
+  const [search, setSearch] = useState()
+
+  const handleSubmitSearch = () => {
+    router.push({
+      pathname: `/search/${search}`,
+    })
+  }
 
   return (
     <TemplateDeafult>
@@ -49,8 +59,11 @@ const Home = ({ products }) => {
           O que deseja encontrar?
         </Typography>
         <Paper className={classes.searchBox}>
-          <InputBase placeholder='Ex.: iPhone 12 com garantia' fullWidth />
-          <IconButton>
+          <InputBase
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder='Ex.: iPhone 12 com garantia'
+            fullWidth />
+          <IconButton onClick={handleSubmitSearch}>
             <SearchIcon />
           </IconButton>
         </Paper>

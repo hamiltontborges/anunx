@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    textDecoration: 'none !important',
   },
-  headButton:{
+  headButton: {
     marginRight: 10,
   },
   userName: {
@@ -50,9 +51,13 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Container maxWidth="lg">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              AnunX
-            </Typography>
+            <Link href={'/'} passHref>
+              <a className={classes.title}>
+                <Typography variant="h6" color="secondary">
+                  AnunX
+                </Typography>
+              </a>
+            </Link>
             <Link href={session ? '/user/publish' : '/auth/signin'} passHref>
               <Button color="inherit" variant="outlined" className={classes.headButton}>
                 Anunciar e Vender
@@ -92,7 +97,7 @@ export default function ButtonAppBar() {
                 <MenuItem>Publicar novo anúncio</MenuItem>
               </Link>
               <Divider className={classes.divider} />
-              <MenuItem onClick={() => signOut({callbackUrl: '/'})}>Sair</MenuItem>
+              <MenuItem onClick={() => signOut({ callbackUrl: '/' })}>Sair</MenuItem>
             </Menu>
 
           </Toolbar>
