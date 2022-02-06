@@ -40,9 +40,9 @@ const useStyles = makeStyles(() => ({
 const Home = ({ products }) => {
   const classes = useStyles()
   const { setToasty } = useToasty()
-  const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [productId, setProductId] = useState()
   const [removedProducts, setRemovedProducts] = useState([])
+  const [openConfirmModal, setOpenConfirmModal] = useState(false)
 
 
   const handleCloseModal = () => setOpenConfirmModal(false)
@@ -127,7 +127,7 @@ const Home = ({ products }) => {
         <Grid container spacing={4}>
           {
             products.map(product => {
-              if (removedProducts.includes(products._id)) return null
+              if (removedProducts.includes(product._id)) return null
 
               return (
                 <Grid item key={product._id} xs={12} sm={6} md={4}>

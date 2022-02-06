@@ -11,8 +11,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(() => ({
 
     cardMedia: {
-        width: 250,
-        maxHeight: 250,
+        paddingTop: '56%'
     }
 }))
 
@@ -24,7 +23,6 @@ const Card = ({ image, title, subtitle, actions }) => {
         <CardMUI>
             <CardMedia
                 className={classes.cardMedia}
-                component="img"
                 image={image}
                 title={title}
             />
