@@ -1,3 +1,6 @@
+import Link from 'next/link'
+import slugify from 'slugify'
+
 import {
   Box,
   Button,
@@ -9,10 +12,13 @@ import {
   Typography,
 } from '@material-ui/core'
 
-import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles } from '@material-ui/core/styles'
+import SearchIcon from '@material-ui/icons/Search'
 import TemplateDeafult from '../src/templates/Default'
 import Card from '../src/components/Card'
+import dbConnect from '../src/utils/dbConnect'
+import ProductsModel from '../src/models/products'
+import { formatCurrency } from '../src/utils/currency'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,10 +32,13 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     marginTop: 50
   },
+  productLink: {
+    textDecoration: 'none !important'
+  }
 }))
 
 
-const Home = () => {
+const Home = ({ products }) => {
 
   const classes = useStyles()
 
@@ -52,35 +61,49 @@ const Home = () => {
           Destaques
         </Typography>
         <br />
+
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={'https://source.unsplash.com/random'}
-              title={'Produto X'}
-              subtitle={'R$ 60,00'}
-            />
-          </Grid>
+          {
+            products.map(product => {
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={'https://source.unsplash.com/random'}
-              title={'Produto X'}
-              subtitle={'R$ 60,00'}
-            />
-          </Grid>
+              const category = slugify(product.category).toLowerCase()
+              const title = slugify(product.title).toLowerCase()
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              image={'https://source.unsplash.com/random'}
-              title={'Produto X'}
-              subtitle={'R$ 60,00'}
-            />
-          </Grid>
+              return (
+
+                <Grid item key={product._id} xs={12} sm={6} md={4}>
+                  <Link href={`/${category}/${title}/${product._id}`}>
+                    <a className={classes.productLink}>
+                      <Card
+                        image={`/uploads/${product.files[0].name}`}
+                        title={product.title}
+                        subtitle={formatCurrency(product.price)}
+                      />
+                    </a>
+                  </Link>
+                </Grid>
+              )
+            })
+          }
 
         </Grid>
       </Container>
     </TemplateDeafult>
   )
+}
+
+export async function getServerSideProps() {
+  await dbConnect()
+
+  const products = await ProductsModel.aggregate([{
+    $sample: { size: 6 }
+  }])
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products))
+    }
+  }
 }
 
 export default Home
